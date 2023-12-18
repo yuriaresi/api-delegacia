@@ -10,13 +10,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Criminoso {
-id String @id @default(uuid())
-nome String @db.VarChar(60)
-cpf String @db.VarChar(14)
-idade Int
-endereco String? @db.VarChar(255)
-dtHrCriacao DateTime @default(now()) @map("dt_hr_criacao")
-@@map("criminoso")
+  id          String   @id @default(uuid())
+  nome        String   @db.VarChar(60)
+  cpf         String   @unique @db.VarChar(14)
+  idade       Int
+  endereco    String?  @db.VarChar(255)
+  dtHrCriacao DateTime @default(now()) @map("dt_hr_criacao")
+
+  @@map("criminoso")
+}
+
+model Crime {
+  id          String   @id @default(uuid())
+  criminosoId String   @map("criminoso_id") @db.VarChar(255)
+  armaId      String   @map("arma_id") @db.VarChar(255)
+  data        DateTime
+  local       String   @db.VarChar(255)
+  tipoDoCrime String   @map("tipo_do_crime") @db.VarChar(100)
+  descricao   String   @db.Text
+  dtHrCriacao DateTime @default(now()) @map("dt_hr_criacao")
+
+  @@map("crime")
 }
