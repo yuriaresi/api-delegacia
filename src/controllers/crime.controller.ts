@@ -1,9 +1,10 @@
 import { Request, Response, request, response } from "express";
-import { erroServidor } from "./response.helper";
+import { erroServidor } from "../util/response.helper";
 import { PrismaClient } from "@prisma/client";
 import repository from "../database/prisma.ripository";
 import { Criminoso } from "../models/criminoso.model";
 import { Crime } from "../models/crime.model";
+import { adapterCriminosoPrisma } from "../util/criminoso.adapter";
 
 
 export class CrimeController {
@@ -34,7 +35,9 @@ export class CrimeController {
                 })
             }
 
-            const criminosoBackend = new Criminoso(criminoso.nome, criminoso.cpf, criminoso.endereco ?? undefined, criminoso.idade ?? undefined)
+            // const criminosoBackend = new Criminoso(criminoso.nome, criminoso.cpf, criminoso.endereco ?? undefined, criminoso.idade ?? undefined)
+
+            const criminosoBackend = adapterCriminosoPrisma(criminoso)
 
             const crime = new Crime(criminosoBackend, data, local, tipoDoCrime, descricao)
 

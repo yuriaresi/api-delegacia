@@ -1,5 +1,4 @@
 import { randomUUID } from "crypto"
-import { Crime } from "./crime.model"
 
 export class Criminoso {
    public id: string

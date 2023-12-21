@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Criminoso } from "../models/criminoso.model";
 import { PrismaClient } from "@prisma/client";
-import { erroServidor } from "./response.helper";
+import { erroServidor } from "../util/response.helper";
 const repository = new PrismaClient()
 
 export class CriminosoController {
