@@ -11,11 +11,14 @@ datasource db {
 }
 
 model Criminoso {
-  id              String   @id @default(uuid())
-  nome            String   @db.VarChar(60)
-  cpf             String   @unique @db.VarChar(14)
-  idade           Int
-  endereco        String?  @db.VarChar(255)
+  id       String  @id @default(uuid()) @db.Uuid
+  nome     String  @db.VarChar(60)
+  cpf      String  @unique @db.VarChar(14)
+  idade    Int?
+  endereco String? @db.VarChar(255)
+
+  crime Crime[]
+
   dtHrCriacao     DateTime @default(now()) @map("dt_hr_criacao")
   dtHrAtualizacao DateTime @updatedAt @map("dt_hr_atualizacao")
 
@@ -23,13 +26,16 @@ model Criminoso {
 }
 
 model Crime {
-  id              String   @id @default(uuid())
-  criminosoId     String   @map("criminoso_id") @db.VarChar(255)
-  armaId          String   @map("arma_id") @db.VarChar(255)
-  data            DateTime
-  local           String   @db.VarChar(255)
-  tipoDoCrime     String   @map("tipo_do_crime") @db.VarChar(100)
-  descricao       String   @db.Text
+  id          String   @id @default(uuid()) @db.Uuid
+  idCriminoso String   @map("id_criminoso") @db.Uuid
+  data        DateTime
+  local       String   @db.VarChar(255)
+  tipoDoCrime String   @map("tipo_do_crime") @db.VarChar(100)
+  descricao   String   @db.Text
+
+  criminoso Criminoso @relation(fields: [idCriminoso], references: [id])
+  arma      Arma[]
+
   dtHrCriacao     DateTime @default(now()) @map("dt_hr_criacao")
   dtHrAtualizacao DateTime @updatedAt @map("dt_hr_atualizacao")
 
@@ -37,12 +43,15 @@ model Crime {
 }
 
 model Arma {
-  id              String   @id @default(uuid())
-  crimeId         String   @map("crime_id") @db.VarChar(255)
-  nome            String   @db.VarChar(60)
-  tipo            String   @db.VarChar(60)
-  numeroDeSerie   String?  @map("numero_de_serie") @db.VarChar(60)
-  marca           String   @db.VarChar(60)
+  id            String  @id @default(uuid()) @db.Uuid
+  idCrime       String  @map("id_crime") @db.Uuid
+  nome          String  @db.VarChar(60)
+  tipo          String  @db.VarChar(60)
+  numeroDeSerie String? @map("numero_de_serie") @db.VarChar(60)
+  marca         String  @db.VarChar(60)
+
+  crime Crime @relation(fields: [idCrime], references: [id])
+
   dtHrCriacao     DateTime @default(now()) @map("dt_hr_criacao")
   dtHrAtualizacao DateTime @updatedAt @map("dt_hr_atualizacao")
 
