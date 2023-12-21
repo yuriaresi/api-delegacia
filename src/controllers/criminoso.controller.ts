@@ -61,8 +61,20 @@ export class CriminosoController {
             const { id } = req.params
 
             const result = await repository.criminoso.findFirst(
-                { where: { id } }
+                {
+                    where: { id },
+                    include: { crime: true }
+                }
             )
+
+            if (!result) {
+                return res.status(404).send(
+                    {
+                        ok: false,
+                        mesage: 'Nenhum criminoso encontrado.'
+                    }
+                )
+            }
 
             return res.status(201).send(
                 {

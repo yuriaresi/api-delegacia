@@ -4,7 +4,7 @@ import { Crime } from "./crime.model"
 export class Criminoso {
    public id: string
 
-    constructor(public nome: string, public cpf: string,public endereco: string, public idade?: number){
+    constructor(public nome: string, public cpf: string,public endereco?: string, public idade?: number){
         this.id = randomUUID()
     }
 }

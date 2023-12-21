@@ -28,7 +28,7 @@ model Criminoso {
 model Crime {
   id          String   @id @default(uuid()) @db.Uuid
   idCriminoso String   @map("id_criminoso") @db.Uuid
-  data        DateTime
+  data        String    @db.VarChar(10)
   local       String   @db.VarChar(255)
   tipoDoCrime String   @map("tipo_do_crime") @db.VarChar(100)
   descricao   String   @db.Text
